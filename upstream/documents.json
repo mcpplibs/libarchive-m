@@ -1,0 +1,17 @@
+{
+  "upstream": "https://libarchive.org/downloads/libarchive-3.8.7.tar.gz",
+  "upstream_sha256": "4b787cca6697a95c7725e45293c973c208cbdc71ae2279f30ef09f52472b9166",
+  "pruning": "Nothing of libarchive is vendored: the library is compat.libarchive 3.8.7's, from the same tarball. Its README and license summary are retained here. The conformance run builds the release's libarchive/test suite against compat.libarchive, from the tarball downloaded at test time.",
+  "documents": [
+    {
+      "path": "upstream/libarchive/README.md",
+      "source": "https://github.com/libarchive/libarchive/blob/v3.8.7/README.md",
+      "sha256": "158527b45cc55cce474530d54e8c7e1a6fd3f57c6cf0967777421c07ea34398d"
+    },
+    {
+      "path": "upstream/libarchive/COPYING",
+      "source": "https://github.com/libarchive/libarchive/blob/v3.8.7/COPYING",
+      "sha256": "30e556b3959e3985d66efefec5eaac51d4995053caa1d3cffe6eb916f146f229"
+    }
+  ]
+}

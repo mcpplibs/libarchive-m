@@ -1,0 +1,4 @@
+[template]
+description  = "Archives with import mcpplibs.mwrap.libarchive: a tar.gz written in memory and listed, or the listing of any archive libarchive reads"
+default      = true
+post_message = "Run `mcpp run`, or `mcpp run -- <archive>` to list an archive of your own."

@@ -1,0 +1,57 @@
+// {{project.name}}: libarchive through import mcpplibs.mwrap.libarchive. The
+// functions and types are libarchive's own names; the constants (ARCHIVE_OK,
+// AE_IFREG …) are in mcpplibs::mwrap::libarchive::macros.
+import std;
+import mcpplibs.mwrap.libarchive;
+
+namespace la = mcpplibs::mwrap::libarchive::macros;
+
+// A tar.gz of three small files, in memory.
+static std::string bundle()
+{
+    std::string out(64 * 1024, '\0');
+    std::size_t used = 0;
+    archive* a = archive_write_new();
+    archive_write_set_format_pax_restricted(a);
+    archive_write_add_filter_gzip(a);
+    archive_write_open_memory(a, out.data(), out.size(), &used);
+    for (std::string_view name : {"README.md", "src/main.cpp", "notes/today.txt"}) {
+        const std::string data = std::format("{} was written by libarchive {}\n", name, la::ARCHIVE_VERSION_ONLY_STRING);
+        archive_entry* e = archive_entry_new();
+        archive_entry_set_pathname(e, std::string(name).c_str());
+        archive_entry_set_filetype(e, la::AE_IFREG);
+        archive_entry_set_perm(e, 0644);
+        archive_entry_set_size(e, static_cast<la_int64_t>(data.size()));
+        archive_write_header(a, e);
+        archive_write_data(a, data.data(), data.size());
+        archive_entry_free(e);
+    }
+    archive_write_free(a);  // closes the archive and flushes the filter
+    out.resize(used);
+    return out;
+}
+
+int main(int argc, char** argv)
+{
+    archive* a = archive_read_new();
+    archive_read_support_filter_all(a);
+    archive_read_support_format_all(a);
+    const std::string memory = argc > 1 ? std::string() : bundle();
+    const int opened = argc > 1 ? archive_read_open_filename(a, argv[1], 10240)
+                                : archive_read_open_memory(a, memory.data(), memory.size());
+    if (opened != la::ARCHIVE_OK) {
+        std::println("cannot open: {}", archive_error_string(a));
+        archive_read_free(a);
+        return 1;
+    }
+    archive_entry* e;
+    int entries = 0;
+    while (archive_read_next_header(a, &e) == la::ARCHIVE_OK) {
+        std::println("{:>8}  {}", archive_entry_size(e), archive_entry_pathname(e));
+        archive_read_data_skip(a);
+        ++entries;
+    }
+    std::println("{} entries, {} / {}", entries, archive_format_name(a), archive_filter_name(a, 0));
+    archive_read_free(a);
+    return entries > 0 ? 0 : 1;
+}

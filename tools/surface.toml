@@ -1,0 +1,20 @@
+# What tools/generate.py cannot read from the headers; everything else it can.
+name          = "libarchive"
+title         = "libarchive 3.8.7"
+compat        = "libarchive"
+version       = "3.8.7"
+license       = "BSD 2-Clause license"
+generated-on  = "linux"
+headers       = ["archive.h", "archive_entry.h"]
+owned         = ["archive.h", "archive_entry.h"]
+
+# compat.libarchive compiles a static library (-DLIBARCHIVE_STATIC). The
+# declarations must say so too: on Windows the headers otherwise declare every
+# function __declspec(dllimport), and the program would look for a DLL.
+defines       = ["LIBARCHIVE_STATIC"]
+syntax        = []
+
+# Declared on Windows only (archive.h, archive_entry.h: `_WIN32 && !__CYGWIN__`).
+[conditional]
+archive_read_open_filenames_w = "defined(_WIN32) && !defined(__CYGWIN__)"
+archive_entry_copy_bhfi       = "defined(_WIN32) && !defined(__CYGWIN__)"
