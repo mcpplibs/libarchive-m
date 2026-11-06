@@ -50,7 +50,10 @@ the constants (tests/macros.cpp does this).
 
 tools/run_conformance.py builds libarchive's own `libarchive/test` (312
 sources, 702 tests) with upstream's `test_main.c` over `compat.libarchive` and
-runs it against the release's reference files. One test fails by
+runs it against the release's reference files, on Linux: the test sources
+expect the configuration upstream's build generates for each host, and
+compat.libarchive configures macOS and Windows from the Android host headers
+with substitutions, which the sources do not accept. One test fails by
 configuration and is expected: `test_archive_string_conversion_fail_c`
 expects a conversion to the C locale's ASCII to fail, and `compat.libarchive`
 answers UTF-8 for every locale.

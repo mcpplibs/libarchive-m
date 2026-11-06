@@ -83,6 +83,10 @@ jobs:
         if: startsWith(matrix.toolchain, 'llvm')
         run: python3 tools/generate.py --check
 
+      # Linux only: the suite's sources expect the configuration that upstream's own
+      # build generates for each host, and compat.libarchive configures macOS and
+      # Windows from the Android host headers with substitutions, which the test
+      # sources do not accept (dirent.h on Windows, the macOS ACL calls).
       - name: Upstream's test suite over the same library
-        if: ${{ !matrix.target }}
+        if: ${{ !matrix.target && runner.os == 'Linux' }}
         run: python3 tools/run_conformance.py --toolchain "${{ matrix.toolchain }}"

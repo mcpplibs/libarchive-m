@@ -104,9 +104,10 @@ def guards(macros):
     return found
 
 
-def _accepted(compiler, flags, headers, names, form):
-    """The names for which `form` (with {i} and {n}) compiles after the headers:
-    one translation unit, dropping the lines with an error until none remain."""
+def accepted(compiler, flags, headers, names, form):
+    """The names for which `form` (with {i} and {n}; one or more lines) compiles
+    after the headers: one translation unit, dropping the forms with an error
+    until none remain."""
     head = ''.join(f'#include <{h}>\n' for h in headers)
     pending = sorted(names)
     while pending:
@@ -115,7 +116,8 @@ def _accepted(compiler, flags, headers, names, form):
                                 input=probe, capture_output=True, text=True)
         if result.returncode == 0:
             return set(pending)
-        bad = {int(m.group(1)) - 1 for m in re.finditer(r'mwrap-probe:(\d+):\d+: error', result.stderr)}
+        lines = form.count('\n') + 1
+        bad = {(int(m.group(1)) - 1) // lines for m in re.finditer(r'mwrap-probe:(\d+):\d+: error', result.stderr)}
         if not bad:
             raise RuntimeError(result.stderr[-2000:])
         pending = [n for i, n in enumerate(pending) if i not in bad]
@@ -125,10 +127,10 @@ def _accepted(compiler, flags, headers, names, form):
 def constant_macros(compiler, flags, headers, macros):
     """The object-like macros among `macros` whose expansion is a constant expression."""
     names = [n for n, m in macros.items() if m['params'] is None and m['body']]
-    return _accepted(compiler, flags, headers, names, 'inline constexpr auto mwrap_probe_{i} = ({n});')
+    return accepted(compiler, flags, headers, names, 'inline constexpr auto mwrap_probe_{i} = ({n});')
 
 
 def type_macros(compiler, flags, headers, macros):
     """The object-like macros among `macros` whose expansion is a type."""
     names = [n for n, m in macros.items() if m['params'] is None and m['body']]
-    return _accepted(compiler, flags, headers, names, 'using mwrap_probe_{i} = {n};')
+    return accepted(compiler, flags, headers, names, 'using mwrap_probe_{i} = {n};')

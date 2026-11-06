@@ -71,8 +71,9 @@ ZIP 与 7-Zip 写入内存后读回并识别格式与过滤器，经克隆保留
 
 - 导出审计（[tools/generate.py](tools/generate.py) `--check`）：按 clang 读到的头文件重新生成模块、宏映射、宏头文件与
   生成的测试并逐字节比较；在 macOS 与 Windows 上检查头文件在该平台声明的每个名字都已导出；
-- 在同一份库上运行上游的测试套件（[tools/run_conformance.py](tools/run_conformance.py)）；其中一个测试因
-  compat.libarchive 的配置而失败，已连同原因列出。
+- 在 Linux 上于同一份库运行上游的测试套件（[tools/run_conformance.py](tools/run_conformance.py)）；其中一个测试因
+  compat.libarchive 的配置而失败，已连同原因列出。测试源码需要上游构建为各宿主生成的配置，compat.libarchive 不为 macOS
+  与 Windows 生成这种配置。
 
 另一个作业把默认模板当作已安装的包生成项目并运行。
 
