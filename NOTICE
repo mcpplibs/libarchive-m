@@ -1,0 +1,13 @@
+libarchive-m: C++ module wrapper
+Copyright (c) 2026 mcpp-community contributors
+
+The wrapper contributions are licensed under the Apache License, Version 2.0.
+Upstream code, copied interfaces and dependencies retain their original
+licenses and copyright notices. libarchive is distributed under the BSD
+2-Clause license, with the exceptions its COPYING lists:
+
+  Copyright (c) 2003-2018 Tim Kientzle and the libarchive contributors
+
+Its original README and license summary are retained in upstream/libarchive/.
+The library itself is provided by compat.libarchive from the same release.
+Provenance and checksums are recorded in upstream/documents.json.

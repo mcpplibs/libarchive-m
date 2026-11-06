@@ -85,9 +85,11 @@ linked, and header mixing. CI also runs:
   module, the macro mapping, the macro header and the generated tests are
   regenerated from the headers as clang reads them and compared, and on macOS
   and Windows every name the headers declare there is exported;
-- upstream's test suite over the same library
+- on Linux, upstream's test suite over the same library
   ([tools/run_conformance.py](tools/run_conformance.py)); one test fails by
-  compat.libarchive's configuration and is listed with its reason.
+  compat.libarchive's configuration and is listed with its reason. The suite's
+  sources need the configuration upstream's build generates per host, which
+  compat.libarchive does not produce for macOS and Windows.
 
 A separate job scaffolds the default template as an installed package and runs
 it.

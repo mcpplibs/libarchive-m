@@ -1,0 +1,43 @@
+# Module wrapper; upstream API preserved. Policy: mcpp-index/docs/mwrap.md.
+[package]
+namespace   = "mcpplibs.mwrap"
+name        = "libarchive"
+version     = "3.8.7"
+description = "libarchive 3.8.7 C++ modules for mcpp (import mcpplibs.mwrap.libarchive;): reading and writing tar, cpio, zip, 7-Zip, ISO 9660 and other archives with their compression filters, archive entries and disk access over compat.libarchive, with the constants of archive.h as C++ constants"
+license     = "Apache-2.0"
+authors     = ["mcpp-community"]
+repo        = "https://github.com/mcpplibs/libarchive-m"
+platforms   = ["linux", "macos", "windows"]
+
+[targets.libarchive]
+kind = "lib"
+
+[build]
+sources      = ["src/*.cppm"]
+# <mwrap/libarchive/macros.hpp>: the macros of archive.h that are not constants.
+include_dirs = ["include"]
+
+[dependencies]
+compat.libarchive = "3.8.7"
+
+[test]
+discover = ["tests/*.cpp"]
+
+[package.metadata.mwrap]
+upstream-version = "3.8.7"
+
+[[runtime.deploy]]
+from = "LICENSE"
+to   = "licenses/libarchive"
+
+[[runtime.deploy]]
+from = "NOTICE"
+to   = "licenses/libarchive"
+
+[[runtime.deploy]]
+from = "upstream/libarchive/README.md"
+to   = "licenses/libarchive/upstream/libarchive"
+
+[[runtime.deploy]]
+from = "upstream/libarchive/COPYING"
+to   = "licenses/libarchive/upstream/libarchive"
