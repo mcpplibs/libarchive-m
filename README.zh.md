@@ -24,7 +24,7 @@
 ## 快速开始
 
 ```sh
-mcpp new bundle --template mcpplibs.mwrap.libarchive@3.8.7
+mcpp new bundle --template mcpplibs.mwrap.libarchive@3.8.7.1
 cd bundle
 mcpp run
 ```
@@ -33,7 +33,7 @@ mcpp run
 
 ```toml
 [dependencies]
-"mcpplibs.mwrap.libarchive" = "3.8.7"
+mcpplibs.mwrap.libarchive = "3.8.7.1"
 ```
 
 ```cpp
