@@ -2,7 +2,7 @@
 [package]
 namespace   = "mcpplibs.mwrap"
 name        = "libarchive"
-version     = "3.8.7"
+version     = "3.8.7.1"
 description = "libarchive 3.8.7 C++ modules for mcpp (import mcpplibs.mwrap.libarchive;): reading and writing tar, cpio, zip, 7-Zip, ISO 9660 and other archives with their compression filters, archive entries and disk access over compat.libarchive, with the constants of archive.h as C++ constants"
 license     = "Apache-2.0"
 authors     = ["mcpp-community"]

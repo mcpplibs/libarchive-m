@@ -27,7 +27,7 @@ runs on every CI run over the same library.
 ## Getting started
 
 ```sh
-mcpp new bundle --template mcpplibs.mwrap.libarchive@3.8.7
+mcpp new bundle --template mcpplibs.mwrap.libarchive@3.8.7.1
 cd bundle
 mcpp run
 ```
@@ -37,7 +37,7 @@ The default template writes a tar.gz of three files in memory and lists it;
 
 ```toml
 [dependencies]
-"mcpplibs.mwrap.libarchive" = "3.8.7"
+mcpplibs.mwrap.libarchive = "3.8.7.1"
 ```
 
 ```cpp
